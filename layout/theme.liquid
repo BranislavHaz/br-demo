@@ -55,7 +55,7 @@
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
       {% for scheme in settings.color_schemes -%}
-        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+        {% assign scheme_classes = scheme.classes | append: ', .color-' | append: scheme.id %}
         {% if forloop.index == 1 -%}
           :root,
         {%- endif %}
@@ -299,7 +299,7 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-    {% sections 'newsletter-modal' %}
+    {% section 'newsletter-modal' %}
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
