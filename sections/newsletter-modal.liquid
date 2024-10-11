@@ -1,0 +1,70 @@
+{% schema %}
+{
+  "name": "Newsletter Modal",
+  "tag": "section",
+  "class": "newsletter-modal",
+  "settings": [
+    { "type": "checkbox", "id": "newsletter_modal", "label": "Show Newsletter Modal?" },
+    {
+      "type": "range",
+      "id": "newsletter_modal_delay",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "sec",
+      "label": "Modal show delay",
+      "default": 10
+    },
+    {
+      "type": "image_picker",
+      "id": "newsletter_modal_image_large_sc",
+      "label": "Image for large screen"
+    },
+    { "type": "checkbox", "id": "newsletter_modal_show_img_small_sc", "label": "Show image in small screen" },
+    {
+      "type": "image_picker",
+      "id": "newsletter_modal_image_small_sc",
+      "label": "Image for small screen"
+    },
+    { "type": "text", "id": "newsletter_modal_title", "label": "Title" },
+    { "type": "text", "id": "newsletter_modal_subtitle", "label": "Subitle" },
+    { "type": "text", "id": "newsletter_modal_button_text", "label": "Button Text" },
+    {
+      "type": "color",
+      "id": "newsletter_modal_bg_color",
+      "label": "Background color",
+      "default": "#FFE0F9"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_modal_main_color",
+      "label": "Main color (title, link, button)",
+      "default": "#F50D3A"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_modal_secondary_color",
+      "label": "Secondary color (text, input text)",
+      "default": "#949494"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_modal_bg_input_color",
+      "label": "Background input color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_modal_button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_modal_close_icon_color",
+      "label": "Close icon color",
+      "default": "#393939"
+    }
+  ]
+}
+{% endschema %}
