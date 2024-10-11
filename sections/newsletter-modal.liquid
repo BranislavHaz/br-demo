@@ -1,6 +1,48 @@
 <script src="{{ 'newsletter-modal.js' | asset_url }}" defer></script>
 {{ 'component-newsletter-modal.css' | asset_url | stylesheet_tag }}
 
+
+<style>
+  #modal {
+    background-color: {{section.settings.newsletter_modal_bg_color}};
+
+    @media only screen and (min-width: 992px) {
+    {% if section.settings.newsletter_modal_image_large_sc %}
+        grid-template-columns: 45% 55%;
+    {% else %}
+        grid-template-columns: 1fr;
+    {% endif %}
+    }
+  }
+
+  #modal-img {
+    {% if section.settings.newsletter_modal_show_img_small_sc and section.settings.newsletter_modal_image_small_sc %}
+        background-image: url({{ section.settings.newsletter_modal_image_small_sc | image_url }});
+        display: block;
+    {% else %}
+        background-image: none;
+        display: none;
+    {% endif %}
+
+    @media only screen and (min-width: 992px) {
+    {% if section.settings.newsletter_modal_image_large_sc %}
+        background-image: url({{ section.settings.newsletter_modal_image_large_sc | image_url }});
+        display: block;
+    {% else %}
+        background-image: none;
+        display: none;
+    {% endif %}
+  }
+  }
+</style>
+
+<div
+  id="modal"
+>
+  <div id="modal-img"></div>
+  <div id="modal-content">Hello</div>
+</div>
+
 {% schema %}
 {
   "name": "Newsletter Modal",
