@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "prettier-plugin-css-order": "^2.1.2"
+  }
+}
