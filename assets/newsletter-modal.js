@@ -5,20 +5,19 @@ if (currentUrl.includes('challenge?form_key')) {
   element && element.classList.add('hidden');
 }
 
-// Set real height
-const documentHeight = () => {
+// Adjusting the modal depending on the size device
+const adjustingModal = () => {
   const doc = document.documentElement;
   const modalWrap = document.getElementById('shopify-section-newsletter-modal');
   const modal = document.getElementById('modal');
   const modalHeight = modal.offsetHeight;
-  const modalWidth = modal.offsetWidth;
   const viewportHeight = window.visualViewport.height;
   const viewportWidth = window.visualViewport.width;
 
-  // set real viewportHeight to css variable
+  // Set real viewportHeight to css variable
   doc.style.setProperty('--doc-height', `${viewportHeight}px`);
 
-  // set css classes if is modal higher than real viewport
+  // Set css classes if is modal higher than real viewport
   if (modalHeight > viewportHeight) {
     modalWrap.classList.add('align-start');
     modal.classList.add('dynamic-mt');
@@ -27,8 +26,8 @@ const documentHeight = () => {
     modal.classList.remove('dynamic-mt');
   }
 
+  // Set scale size for small width devices to css variable
   const originalWidth = 400;
-
   if (viewportWidth < originalWidth) {
     const scaleSize = viewportWidth / originalWidth;
     doc.style.setProperty('--modal-scale', scaleSize);
@@ -37,12 +36,6 @@ const documentHeight = () => {
   }
 };
 
-window.addEventListener('resize', documentHeight);
-window.addEventListener('DOMContentLoaded', documentHeight);
-documentHeight();
-
-/* const newsletterForm = document.getElementById('newsletter-form');
-
-newsletterForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-}); */
+window.addEventListener('resize', adjustingModal);
+window.addEventListener('DOMContentLoaded', adjustingModal);
+adjustingModal();
