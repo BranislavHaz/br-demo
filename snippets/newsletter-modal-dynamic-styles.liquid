@@ -1,0 +1,84 @@
+<style>
+  #modal {
+    background-color: {{section.settings.newsletter_modal_bg_color}};
+
+
+    @media only screen and (min-width: 992px) {
+    {% if section.settings.newsletter_modal_image %}
+        grid-template-columns: 45% 55%;
+        border-radius: 0 15px 15px 0;
+    {% else %}
+        grid-template-columns: 1fr;
+        border-radius: 15px;
+    {% endif %}
+    }
+  }
+
+  #modal-img {
+    @media only screen and (min-width: 992px) {
+    {% if section.settings.newsletter_modal_image %}
+        background-image: url({{ section.settings.newsletter_modal_image | image_url: width: 450 }});
+        display: block;
+    {% else %}
+        background-image: none;
+        display: none;
+    {% endif %}
+  }
+  }
+
+  
+#close-modal svg {
+  stroke: {{ section.settings.newsletter_modal_close_icon_color }};
+}
+
+  #titles .title {
+    color: {{ section.settings.newsletter_modal_main_color }};
+  }
+
+#title-1 {
+  {% unless section.settings.newsletter_modal_title1 %}display: none;{% endunless %}
+}
+
+#title-2 {
+  {% unless section.settings.newsletter_modal_title2 %}display: none;{% endunless %}
+}
+
+#headline .text {
+  {% unless section.settings.newsletter_modal_text %}display: none;{% endunless %}
+    color: {{ section.settings.newsletter_modal_secondary_color }};
+}
+
+#modal-content form input {
+      background-color: {{ section.settings.newsletter_modal_bg_input_color }};
+}
+
+#modal-content form input:not([type='checkbox']){
+    color: {{ section.settings.newsletter_modal_input_color }}
+}
+
+#modal-content form input:not([type='checkbox']):focus {
+  border-color: {{ section.settings.newsletter_modal_main_color }};
+}
+
+#marketing-consent input {
+  background-color: {{ section.settings.newsletter_modal_bg_input_color }};
+}
+
+#marketing-consent input:checked::after {
+  background-color: {{ section.settings.newsletter_modal_main_color }};
+}
+
+#marketing-consent {
+  color: {{ section.settings.newsletter_modal_input_color }};
+}
+
+#marketing-consent a {
+  color: {{ section.settings.newsletter_modal_main_color }};
+}
+
+#modal-content form button {
+  color: {{ section.settings.newsletter_modal_button_text_color }};
+  background-color: {{ section.settings.newsletter_modal_main_color }};
+}
+
+</style>
