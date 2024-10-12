@@ -1,115 +1,144 @@
-<script src="{{ 'newsletter-modal.js' | asset_url }}" defer></script>
+<script src="{{ 'newsletter-modal.js' | asset_url }}"></script>
 {{ 'component-newsletter-modal.css' | asset_url | stylesheet_tag }}
+{% include 'newsletter-modal-dynamic-styles' %}
 
-
-<style>
-  #modal {
-    background-color: {{section.settings.newsletter_modal_bg_color}};
-
-    @media only screen and (min-width: 992px) {
-    {% if section.settings.newsletter_modal_image_large_sc %}
-        grid-template-columns: 45% 55%;
-    {% else %}
-        grid-template-columns: 1fr;
-    {% endif %}
-    }
-  }
-
-  #modal-img {
-    {% if section.settings.newsletter_modal_show_img_small_sc and section.settings.newsletter_modal_image_small_sc %}
-        background-image: url({{ section.settings.newsletter_modal_image_small_sc | image_url }});
-        display: block;
-    {% else %}
-        background-image: none;
-        display: none;
-    {% endif %}
-
-    @media only screen and (min-width: 992px) {
-    {% if section.settings.newsletter_modal_image_large_sc %}
-        background-image: url({{ section.settings.newsletter_modal_image_large_sc | image_url }});
-        display: block;
-    {% else %}
-        background-image: none;
-        display: none;
-    {% endif %}
-  }
-  }
-</style>
-
-<div
-  id="modal"
->
+<div id="modal">
+  <span id="close-modal">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
   <div id="modal-img"></div>
-  <div id="modal-content">Hello</div>
+  <div id="modal-content">
+    <div id="content">
+    <div id="headline">
+      <div id="titles">
+        <p id="title-1" class="title">{{ section.settings.newsletter_modal_title1 }}</p>
+        <p id="title-2" class="title">{{ section.settings.newsletter_modal_title2 }}</p>
+      </div>
+      <p class="text">{{ section.settings.newsletter_modal_text }}</p>
+    </div>
+
+    {% form 'customer'
+      , id: "newsletter-form" %}
+      <input
+        type="text"
+        id="name"
+        placeholder="MENO">
+      <input type="hidden" name="contact[first_name]">
+      <input type="hidden" name="contact[last_name]">
+      <input
+        type="email"
+        name="contact[email]"
+        id="email"
+        value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+        placeholder="EMAILOVA ADRESA"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email">
+      <label id="marketing-consent">
+        <input type="checkbox" id="consent">
+        <span>I agree to the User Agreement and
+          <a href="#" target="_blank">Privacy Policy.</a>
+        </span>
+      </label>
+      <button
+        type="submit"
+        name="commit"
+        id="Subscribe">
+        <span>{{ section.settings.newsletter_modal_button_text | default: "prihlás ma" }}</span>
+
+      </button>
+    {% endform %}
+
+  </div></div>
 </div>
 
+
 {% schema %}
-{
-  "name": "Newsletter Modal",
-  "tag": "section",
-  "class": "newsletter-modal",
-  "settings": [
-    { "type": "checkbox", "id": "newsletter_modal", "label": "Show Newsletter Modal?" },
-    {
-      "type": "range",
-      "id": "newsletter_modal_delay",
-      "min": 0,
-      "max": 25,
-      "step": 1,
-      "unit": "sec",
-      "label": "Modal show delay",
-      "default": 10
-    },
-    {
-      "type": "image_picker",
-      "id": "newsletter_modal_image_large_sc",
-      "label": "Image for large screen"
-    },
-    { "type": "checkbox", "id": "newsletter_modal_show_img_small_sc", "label": "Show image in small screen" },
-    {
-      "type": "image_picker",
-      "id": "newsletter_modal_image_small_sc",
-      "label": "Image for small screen"
-    },
-    { "type": "text", "id": "newsletter_modal_title", "label": "Title" },
-    { "type": "text", "id": "newsletter_modal_subtitle", "label": "Subitle" },
-    { "type": "text", "id": "newsletter_modal_button_text", "label": "Button Text" },
-    {
-      "type": "color",
-      "id": "newsletter_modal_bg_color",
-      "label": "Background color",
-      "default": "#FFE0F9"
-    },
-    {
-      "type": "color",
-      "id": "newsletter_modal_main_color",
-      "label": "Main color (title, link, button)",
-      "default": "#F50D3A"
-    },
-    {
-      "type": "color",
-      "id": "newsletter_modal_secondary_color",
-      "label": "Secondary color (text, input text)",
-      "default": "#949494"
-    },
-    {
-      "type": "color",
-      "id": "newsletter_modal_bg_input_color",
-      "label": "Background input color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "newsletter_modal_button_text_color",
-      "label": "Button text color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "newsletter_modal_close_icon_color",
-      "label": "Close icon color",
-      "default": "#393939"
-    }
-  ]
-}
+  {
+    "name": "Newsletter Modal",
+    "tag": "section",
+    "class": "newsletter-modal",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_modal",
+        "label": "Show Newsletter Modal?"
+      },
+      {
+        "type": "range",
+        "id": "newsletter_modal_delay",
+        "min": 0,
+        "max": 25,
+        "step": 1,
+        "unit": "sec",
+        "label": "Modal show delay",
+        "default": 10
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_modal_image",
+        "label": "Image for large screen"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_title1",
+        "label": "Title #1"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_title2",
+        "label": "Title #2"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_text",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_bg_color",
+        "label": "Background color",
+        "default": "#FFE0F9"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_main_color",
+        "label": "Main color (titles, link, button)",
+        "default": "#F50D3A"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_secondary_color",
+        "label": "Secondary color",
+        "default": "#949494"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_input_color",
+        "label": "Input text color",
+        "default": "#818181"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_bg_input_color",
+        "label": "Background input color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_button_text_color",
+        "label": "Button text color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_close_icon_color",
+        "label": "Close icon color",
+        "default": "#393939"
+      }
+    ]
+  }
 {% endschema %}
