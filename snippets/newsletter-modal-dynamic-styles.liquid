@@ -17,8 +17,8 @@
   #modal-img {
     @media only screen and (min-width: 992px) {
     {% if section.settings.newsletter_modal_image %}
-        background-image: url({{ section.settings.newsletter_modal_image | image_url: width: 450 }});
-        display: block;
+        background-image: url({{ section.settings.newsletter_modal_image | image_url: width: 650 }});
+        display: initial;
     {% else %}
         background-image: none;
         display: none;
