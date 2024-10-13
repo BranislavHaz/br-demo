@@ -1,53 +1,68 @@
-<script src="{{ 'newsletter-modal.js' | asset_url }}"></script>
+<script src="{{ 'newsletter-modal-exclude-captcha-page.js' | asset_url }}"></script>
+<script src="{{ 'newsletter-modal-display.js' | asset_url }}" defer></script>
+<script src="{{ 'newsletter-modal-submit-form.js' | asset_url }}" defer></script>
+<script src="{{ 'newsletter-modal-adjusting-modal.js' | asset_url }}" defer></script>
 {{ 'component-newsletter-modal.css' | asset_url | stylesheet_tag }}
 {% include 'newsletter-modal-dynamic-styles' %}
 
-<div id="modal">
+{% comment %} Setting for design mode {% endcomment %}
+{% assign delay = 0 %}
+{% assign showError  = "hidden"  %}
+
+{% if request.design_mode %}
+  {% assign delay = 0 %}
+  {% assign showError  = ""  %}
+{% else %}
+  {% assign delay = section.settings.newsletter_modal_delay %}
+  {% assign showError  = "hidden"  %}
+{% endif %}
+
+<div id="modal" data-delay-seconds="{{ delay }}" data-visible="{{ section.settings.newsletter_modal }}">
   <span id="close-modal">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
   <div id="modal-img"></div>
   <div id="modal-content">
     <div id="content">
-    <div id="headline">
-      <div id="titles">
-        <p id="title-1" class="title">{{ section.settings.newsletter_modal_title1 }}</p>
-        <p id="title-2" class="title">{{ section.settings.newsletter_modal_title2 }}</p>
+      <div id="headline">
+        <div id="titles">
+          <p id="title-1" class="title">{{ section.settings.newsletter_modal_title1 }}</p>
+          <p id="title-2" class="title">{{ section.settings.newsletter_modal_title2 }}</p>
+        </div>
+        <p class="text">{{ section.settings.newsletter_modal_text }}</p>
       </div>
-      <p class="text">{{ section.settings.newsletter_modal_text }}</p>
+      {% form 'customer'
+        , id: "newsletter-form" %}
+        <label id="name-input">
+          <input
+            type="text"
+            id="name"
+            placeholder="MENO"><span id="name-error" class="error-message {{ showError }}">Zadajte platné meno</span>
+        </label>
+        <input type="hidden" name="contact[first_name]" id="first-name">
+        <input type="hidden" name="contact[last_name]" id="last-name">
+        <label>
+          <input
+            type="email"
+            name="contact[email]"
+            id="email"
+            value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+            placeholder="EMAILOVA ADRESA"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"><span id="email-error" class="error-message {{ showError }}">Zadajte platnýe-mail</span>
+        </label>
+        <label id="marketing-consent">
+          <input type="checkbox" id="consent">
+          <span id="consent-text">I agree to the User Agreement and
+            <a href="#" target="_blank">Privacy Policy.</a>
+          </span>
+        </label>
+        <input
+          type="button"
+          id="submit-button"
+          value="{{ section.settings.newsletter_modal_button_text | default: "prihlás ma" }}">
+      {% endform %}
     </div>
-
-    {% form 'customer'
-      , id: "newsletter-form" %}
-      <input
-        type="text"
-        id="name"
-        placeholder="MENO">
-      <input type="hidden" name="contact[first_name]">
-      <input type="hidden" name="contact[last_name]">
-      <input
-        type="email"
-        name="contact[email]"
-        id="email"
-        value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-        placeholder="EMAILOVA ADRESA"
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="email">
-      <label id="marketing-consent">
-        <input type="checkbox" id="consent">
-        <span>I agree to the User Agreement and
-          <a href="#" target="_blank">Privacy Policy.</a>
-        </span>
-      </label>
-      <button
-        type="submit"
-        name="commit"
-        id="Subscribe">
-        <span>{{ section.settings.newsletter_modal_button_text | default: "prihlás ma" }}</span>
-
-      </button>
-    {% endform %}
-
-  </div></div>
+  </div>
 </div>
 
 
@@ -55,7 +70,7 @@
   {
     "name": "Newsletter Modal",
     "tag": "section",
-    "class": "newsletter-modal",
+    "class": "newsletter-modal hidden",
     "settings": [
       {
         "type": "checkbox",
@@ -107,25 +122,28 @@
         "type": "color",
         "id": "newsletter_modal_main_color",
         "label": "Main color (titles, link, button)",
-        "default": "#F50D3A"
+        "default": "#F50D3A",
+        "info": "Color for titles, link and button"
       },
       {
         "type": "color",
         "id": "newsletter_modal_secondary_color",
         "label": "Secondary color",
-        "default": "#949494"
+        "default": "#949494",
+        "info": "Color for text under titles"
       },
       {
         "type": "color",
         "id": "newsletter_modal_input_color",
         "label": "Input text color",
-        "default": "#818181"
+        "default": "#818181",
+        "info": "Color for consent text and input text"
       },
       {
         "type": "color",
         "id": "newsletter_modal_bg_input_color",
         "label": "Background input color",
-        "default": "#FFFFFF"
+        "default": "#FFFFFF",
       },
       {
         "type": "color",
@@ -138,6 +156,20 @@
         "id": "newsletter_modal_close_icon_color",
         "label": "Close icon color",
         "default": "#393939"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_error_color",
+        "label": "Error color",
+        "default": "#ff0000",
+        "info": "Background color for inputs and underline consent"
+      },
+      {
+        "type": "color",
+        "id": "newsletter_modal_text_error_color",
+        "label": "Text error color",
+        "default": "#ffffff",
+        "info": "Color for text in inputs"
       }
     ]
   }
