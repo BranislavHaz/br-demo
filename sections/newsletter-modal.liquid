@@ -8,7 +8,6 @@
 {% comment %} Setting for design mode {% endcomment %}
 {% assign delay = 0 %}
 {% assign showError  = "hidden"  %}
-
 {% if request.design_mode %}
   {% assign delay = 0 %}
   {% assign showError  = ""  %}
@@ -16,6 +15,7 @@
   {% assign delay = section.settings.newsletter_modal_delay %}
   {% assign showError  = "hidden"  %}
 {% endif %}
+
 
 <div id="modal" data-delay-seconds="{{ delay }}" data-visible="{{ section.settings.newsletter_modal }}">
   <span id="close-modal">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
