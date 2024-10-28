@@ -1,6 +1,5 @@
 {% unless customer.accepts_marketing %}
 {% unless request.design_mode  %}
-  <script src="{{ 'newsletter-modal-exclude-captcha-page.js' | asset_url }}"></script>
   <script src="{{ 'newsletter-modal-display.js' | asset_url }}" defer></script>
   <script src="{{ 'newsletter-modal-submit-form.js' | asset_url }}" defer></script>
 {% endunless %}
