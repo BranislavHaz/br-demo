@@ -1,5 +1,24 @@
 {
   "devDependencies": {
     "prettier-plugin-css-order": "^2.1.2"
-  }
+  },
+  "name": "br-demo",
+  "version": "1.0.0",
+  "description": "[![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)\r [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=informational)](/.github/CONTRIBUTING.md)",
+  "main": "index.js",
+  "dependencies": {
+    "css-declaration-sorter": "^7.2.0",
+    "nanoid": "^3.3.7",
+    "picocolors": "^1.1.0",
+    "postcss": "^8.4.47",
+    "postcss-less": "^6.0.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.3.3",
+    "source-map-js": "^1.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }
