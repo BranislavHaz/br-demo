@@ -23,7 +23,7 @@
 /* End global classes and vars */
 
 /* Start modal wrap */
-#shopify-section-newsletter-modal {
+.newsletter-modal {
   display: flex;
   position: fixed;
   bottom: 0;
