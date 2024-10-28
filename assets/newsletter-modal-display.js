@@ -39,7 +39,7 @@ const hideModal = () => {
 const showModal = () => {
   if (visibleModal && !modalWrapOnCaptcha) {
     const cookieState = getCookie(cookieName);
-    !cookieState && setCookie({ name: cookieName, days: cookieExpireDays, state: 'undisplayed' });
+    !cookieState && setCookie({ name: cookieName, days: cookieExpireDays, state: 'initial' });
 
     if (cookieState !== 'closed' && cookieState !== 'submited') {
       setTimeout(() => {
