@@ -9,9 +9,7 @@ const currentUrl = window.location.href;
 // =========================
 
 if (currentUrl.includes('challenge?form_key')) {
-  const modalWrap = document.querySelector('.newsletter-modal');
+  const modalWrap = document.querySelector('.newsletter-modal__wrap');
   modalWrap && modalWrap.classList.add('hidden');
   modalWrap.setAttribute('data-on-captcha', true);
-} else {
-  modalWrap.removeAttribute('data-on-captcha', false);
 }

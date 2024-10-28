@@ -26,7 +26,7 @@ const setGlobalCSS = () => {
 
 const toggleDynamicClasses = () => {
   const modalWrap = document.getElementById('shopify-section-newsletter-modal');
-  const modal = document.getElementById('modal');
+  const modal = document.querySelector('.newsletter-modal');
   const modalHeight = modal.offsetHeight;
 
   modalWrap.classList.toggle('align-start', modalHeight > visualViewport.height);

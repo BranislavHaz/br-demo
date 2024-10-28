@@ -2,11 +2,11 @@
 // 1. Initialization of global variables
 // =========================
 
-const modalWrap = document.querySelector('.newsletter-modal');
-const closeIcon = document.getElementById('close-modal');
-const visibleModal = document.getElementById('modal').getAttribute('data-visible');
+const modalWrap = document.querySelector('.newsletter-modal__wrap');
+const closeIcon = document.querySelector('.newsletter-modal__close');
+const visibleModal = document.querySelector('.newsletter-modal').getAttribute('data-visible');
 const modalWrapOnCaptcha = modalWrap.getAttribute('data-on-captcha');
-const delaySeconds = document.getElementById('modal').getAttribute('data-delay-seconds') || 10;
+const delaySeconds = document.querySelector('.newsletter-modal').getAttribute('data-delay-seconds') || 10;
 const cookieName = 'newsletterModalState';
 const cookieExpireDays = 30;
 

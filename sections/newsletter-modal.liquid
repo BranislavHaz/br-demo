@@ -1,34 +1,34 @@
-{% unless request.design_mode %}
+{% unless customer.accepts_marketing %}
+{% unless request.design_mode  %}
   <script src="{{ 'newsletter-modal-exclude-captcha-page.js' | asset_url }}"></script>
   <script src="{{ 'newsletter-modal-display.js' | asset_url }}" defer></script>
   <script src="{{ 'newsletter-modal-submit-form.js' | asset_url }}" defer></script>
 {% endunless %}
 <script src="{{ 'newsletter-modal-adjusting-modal.js' | asset_url }}" defer></script>
-{{ 'component-newsletter-modal.css' | asset_url | stylesheet_tag }}
+{{ 'component-newsletter-modal.scss.css' | asset_url | stylesheet_tag }}
 {% render 'newsletter-modal-dynamic-styles' %}
 
-{% unless customer.accepts_marketing %}
-<section class="newsletter-modal {% unless request.design_mode and section.settings.newsletter_modal_design_mode %}hidden{% endunless %}">
+<section class="newsletter-modal__wrap {% unless request.design_mode and section.settings.newsletter_modal_design_mode %}hidden{% endunless %}">
   <div
-    id="modal"
+    class="newsletter-modal"
     data-delay-seconds="{{ section.settings.newsletter_modal_delay }}"
     data-visible="{{ section.settings.newsletter_modal }}">
-    <span id="close-modal">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
-    <div id="modal-img"></div>
-    <div id="modal-content">
+    <span class="newsletter-modal__close">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
+    <div class="newsletter-modal__img">&nbsp;</div>
+    <div class="newsletter-modal__content">
       <div id="content">
-        <div id="headline">
-          <div id="titles">
-            <p id="title-1" class="title">{{ section.settings.newsletter_modal_title1 }}</p>
-            <p id="title-2" class="title">{{ section.settings.newsletter_modal_title2 }}</p>
+        <div class="newsletter-modal__headline">
+          <div class="newsletter-modal__titles">
+            <p class="newsletter-modal__title newsletter-modal__title-1">{{ section.settings.newsletter_modal_title1 }}</p>
+            <p class="newsletter-modal__title newsletter-modal__title-2">{{ section.settings.newsletter_modal_title2 }}</p>
           </div>
-          <p class="text">{{ section.settings.newsletter_modal_text }}</p>
+          <p class="newsletter-modal__subtitle">{{ section.settings.newsletter_modal_text }}</p>
         </div>
-        {% form 'customer', id: "newsletter-form" %}
-          <label id="name-input">
+        {% form 'customer', id: "newsletter-modal__form" %}
+          <label>
             <input
               type="text"
-              id="name"
+              id="newsletter-modal__name-input"
               class="{% if request.design_mode %}error-input{% endif %}"
               value="{% if customer.first_name != blank and customer.last_name != blank %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}"
               placeholder="MENO">
@@ -37,16 +37,16 @@
           <input
             type="hidden"
             name="contact[first_name]"
-            id="first-name">
+            id="newsletter-modal__first-name-input">
           <input
             type="hidden"
             name="contact[last_name]"
-            id="last-name">
+            id="newsletter-modal__last-name-input">
           <label>
             <input
               type="email"
               name="contact[email]"
-              id="email"
+              id="newsletter-modal__email-input"
               class="{% if request.design_mode %}error-input{% endif %}"
               value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
               placeholder="EMAILOVA ADRESA"
@@ -55,15 +55,15 @@
               autocomplete="email">
                 <span id="email-error" class="error-message {% unless request.design_mode %}hidden{% endunless %}">Zadajte platnýe-mail</span>
           </label>
-          <label id="marketing-consent">
-            <input type="checkbox" id="consent">
-            <span id="consent-text" class="{% if request.design_mode %}consent-error{% endif %}">I agree to the User Agreement and
+          <label class="newsletter-modal__form-consent">
+            <input type="checkbox" id="newsletter-modal__consent-input">
+            <span class="newsletter-modal__form-consent-text {% if request.design_mode %}consent-error{% endif %}">I agree to the User Agreement and
               <a href="#" target="_blank">Privacy Policy.</a>
             </span>
           </label>
           <input
             type="button"
-            id="submit-button"
+            id="newsletter-modal__submit-input"
             value="{{ section.settings.newsletter_modal_button_text | default: "prihlás ma" }}">
         {% endform %}
       </div>

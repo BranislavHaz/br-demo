@@ -2,17 +2,17 @@
 // 1. Initialization of global variables
 // =========================
 
-const form = document.getElementById('newsletter-form');
-const submitButton = document.getElementById('submit-button');
+const form = document.getElementById('newsletter-modal__form');
+const submitButton = document.getElementById('newsletter-modal__submit-input');
 
 // =========================
 // 2. Validation input fields
 // =========================
 
 const validateInputs = () => {
-  const fullName = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const consent = document.getElementById('consent').checked;
+  const fullName = document.getElementById('newsletter-modal__name-input').value;
+  const email = document.getElementById('newsletter-modal__email-input').value;
+  const consent = document.getElementById('newsletter-modal__consent-input').checked;
   const nameRegex = /^[a-zA-Zá-žÁ-Ž°]+(?: [a-zA-Zá-žÁ-Ž°]+)*$/;
   const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const validInputs = { name: false, email: false, consent: false };
@@ -32,8 +32,8 @@ const validateInputs = () => {
 // =========================
 
 const parseFullName = (fullName) => {
-  const firstName = document.getElementById('first-name');
-  const lastName = document.getElementById('last-name');
+  const firstName = document.getElementById('newsletter-modal__first-name-input');
+  const lastName = document.getElementById('newsletter-modal__last-name-input');
 
   if (fullName.includes(' ')) {
     const nameParts = fullName.split(' ');
@@ -50,11 +50,11 @@ const parseFullName = (fullName) => {
 // =========================
 
 const handleInputErrors = (validInputs) => {
-  const fullName = document.getElementById('name');
+  const fullName = document.getElementById('newsletter-modal__name-input');
   const fullNameError = document.getElementById('name-error');
-  const email = document.getElementById('email');
+  const email = document.getElementById('newsletter-modal__email-input');
   const emailError = document.getElementById('email-error');
-  const consentText = document.getElementById('consent-text');
+  const consentText = document.querySelector('.newsletter-modal__form-consent-text');
 
   fullName.classList.toggle('error-input', !validInputs.name);
   fullNameError.classList.toggle('hidden', validInputs.name);
@@ -64,17 +64,7 @@ const handleInputErrors = (validInputs) => {
 };
 
 // =========================
-// 5. Creating submit button for send newsletter
-// =========================
-
-const createSubmitButton = () => {
-  const submitButton = document.createElement('button');
-  submitButton.type = 'submit';
-  form.appendChild(submitButton);
-};
-
-// =========================
-// 6. Helper function to long-term expires in cookies
+// 5. Helper function to long-term expires in cookies
 // =========================
 
 const setLongTermCookie = () => {
@@ -84,7 +74,7 @@ const setLongTermCookie = () => {
 };
 
 // =========================
-// 7. Submit newsletter form
+// 6. Submit newsletter form
 // =========================
 
 const submitNewsletterForm = () => {
@@ -94,9 +84,7 @@ const submitNewsletterForm = () => {
     // Set long-term submited cookie
     setLongTermCookie();
     // Parsing fullname
-    parseFullName(document.getElementById('name').value);
-    // Create submit button
-    createSubmitButton();
+    parseFullName(document.getElementById('newsletter-modal__name-input').value);
     // Submit form
     form.submit();
   } else {
@@ -105,7 +93,7 @@ const submitNewsletterForm = () => {
 };
 
 // =========================
-// 8. Listeners for submitting form
+// 7. Listeners for submitting form
 // =========================
 
 form.addEventListener('keypress', (e) => {
