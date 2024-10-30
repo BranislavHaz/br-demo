@@ -5,13 +5,11 @@
 const modalWrap = document.querySelector('.newsletter-modal__wrap');
 const closeIcon = document.querySelector('.newsletter-modal__close');
 const visibleModal = document.querySelector('.newsletter-modal').getAttribute('data-visible');
-const modalWrapOnCaptcha = modalWrap.getAttribute('data-on-captcha');
-const delaySeconds = document.querySelector('.newsletter-modal').getAttribute('data-delay-seconds') || 10;
 const cookieName = 'newsletterModalState';
 const cookieExpireDays = 30;
 
 // =========================
-// 2. Helper functions for cookies
+// 2. Helper function for setting cookies
 // =========================
 
 const setCookie = (data) => {
@@ -28,29 +26,80 @@ const getCookie = (cookieName) => {
 };
 
 // =========================
-// 3. Helper functions for modal visibility
+// 3. Function for showing / hiding submited content
+// =========================
+
+const showContent = ({ hiddenClass, visibleClass }) => {
+  const hiddenElement = document.querySelector(hiddenClass);
+  const visibleElement = document.querySelector(visibleClass);
+
+  hiddenElement && hiddenElement.classList.add('newsletter-modal__hidden');
+  visibleElement && visibleElement.classList.remove('newsletter-modal__hidden');
+  modalWrap && modalWrap.classList.remove('newsletter-modal__hidden');
+  setCookie({ name: cookieName, days: 99999, state: 'subscribed' });
+};
+
+// =========================
+// 4. Function for hiding modal
 // =========================
 
 const hideModal = () => {
-  modalWrap && modalWrap.classList.add('hidden');
-  setCookie({ name: cookieName, days: cookieExpireDays, state: 'closed' });
+  const cookieState = getCookie(cookieName);
+
+  modalWrap && modalWrap.classList.add('newsletter-modal__hidden');
+  if (cookieState !== 'subscribed') {
+    setCookie({ name: cookieName, days: cookieExpireDays, state: 'closed' });
+  }
 };
 
-const showModal = () => {
-  if (visibleModal && !modalWrapOnCaptcha) {
-    const cookieState = getCookie(cookieName);
-    !cookieState && setCookie({ name: cookieName, days: cookieExpireDays, state: 'initial' });
+// =========================
+// 5. Function for showing modal
+// =========================
 
-    if (cookieState !== 'closed' && cookieState !== 'submited') {
-      setTimeout(() => {
-        modalWrap && modalWrap.classList.remove('hidden');
-      }, delaySeconds * 1000);
+const showModal = () => {
+  if (!visibleModal) return;
+
+  const cookieState = getCookie(cookieName);
+  const currentUrl = window.location.href;
+  const isSuccessUrl = currentUrl.includes('customer_posted=true');
+  const isSubscribedUrl = currentUrl.includes('form_type=customer');
+  const captchaUrl = currentUrl.includes('challenge?form_key');
+  const delaySeconds = document.querySelector('.newsletter-modal').getAttribute('data-delay-seconds') || 10;
+
+  if (!cookieState) {
+    setCookie({ name: cookieName, days: cookieExpireDays, state: 'initial' });
+    setTimeout(() => {
+      modalWrap && modalWrap.classList.remove('newsletter-modal__hidden');
+    }, delaySeconds * 1000);
+    return;
+  }
+
+  if (cookieState === 'closed' || cookieState === 'subscribed') return;
+
+  if (cookieState === 'initial') {
+    setTimeout(() => {
+      modalWrap && modalWrap.classList.remove('newsletter-modal__hidden');
+    }, delaySeconds * 1000);
+    return;
+  }
+
+  if (cookieState === 'submited') {
+    if (isSuccessUrl) {
+      showContent({
+        hiddenClass: '.newsletter-modal__content',
+        visibleClass: '.newsletter-modal__content-success',
+      });
+    } else if (isSubscribedUrl && !captchaUrl) {
+      showContent({
+        hiddenClass: '.newsletter-modal__content',
+        visibleClass: '.newsletter-modal__content-subscribed',
+      });
     }
   }
 };
 
 // =========================
-// 4. Listeners for modal control
+// 6. Listeners for modal control
 // =========================
 
 modalWrap &&
