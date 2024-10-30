@@ -6,7 +6,7 @@ const form = document.getElementById('newsletter-modal__form');
 const submitButton = document.getElementById('newsletter-modal__submit-input');
 
 // =========================
-// 2. Validation input fields
+// 2. Function for validating input fields
 // =========================
 
 const validateInputs = () => {
@@ -28,7 +28,7 @@ const validateInputs = () => {
 };
 
 // =========================
-// 3. Parsing fullname
+// 3. Function for parsing fullname
 // =========================
 
 const parseFullName = (fullName) => {
@@ -46,21 +46,21 @@ const parseFullName = (fullName) => {
 };
 
 // =========================
-// 4. Handling input errors
+// 4. Function for handling input errors
 // =========================
 
 const handleInputErrors = (validInputs) => {
   const fullName = document.getElementById('newsletter-modal__name-input');
-  const fullNameError = document.getElementById('name-error');
+  const fullNameError = document.querySelector('.newsletter-modal__error-name');
   const email = document.getElementById('newsletter-modal__email-input');
-  const emailError = document.getElementById('email-error');
+  const emailError = document.querySelector('.newsletter-modal__error-email');
   const consentText = document.querySelector('.newsletter-modal__form-consent-text');
 
-  fullName.classList.toggle('error-input', !validInputs.name);
-  fullNameError.classList.toggle('hidden', validInputs.name);
-  email.classList.toggle('error-input', !validInputs.email);
-  emailError.classList.toggle('hidden', validInputs.email);
-  consentText.classList.toggle('consent-error', !validInputs.consent);
+  fullName.classList.toggle('newsletter-modal__error-input', !validInputs.name);
+  fullNameError.classList.toggle('newsletter-modal__hidden', validInputs.name);
+  email.classList.toggle('newsletter-modal__error-input', !validInputs.email);
+  emailError.classList.toggle('newsletter-modal__hidden', validInputs.email);
+  consentText.classList.toggle('newsletter-modal__error-consent', !validInputs.consent);
 };
 
 // =========================
@@ -74,18 +74,15 @@ const setLongTermCookie = () => {
 };
 
 // =========================
-// 6. Submit newsletter form
+// 6. Function for submitting newsletter form
 // =========================
 
 const submitNewsletterForm = () => {
   const validInputs = validateInputs();
 
   if (Object.values(validInputs).every((value) => value === true)) {
-    // Set long-term submited cookie
     setLongTermCookie();
-    // Parsing fullname
     parseFullName(document.getElementById('newsletter-modal__name-input').value);
-    // Submit form
     form.submit();
   } else {
     handleInputErrors(validInputs);
