@@ -2,24 +2,27 @@
 {% unless request.design_mode  %}
   <script src="{{ 'newsletter-modal-display.js' | asset_url }}" defer></script>
   <script src="{{ 'newsletter-modal-submit-form.js' | asset_url }}" defer></script>
+  <script src="{{ 'newsletter-modal-adjusting-modal.js' | asset_url }}" defer></script>
 {% endunless %}
-<script src="{{ 'newsletter-modal-adjusting-modal.js' | asset_url }}" defer></script>
 {{ 'component-newsletter-modal.scss.css' | asset_url | stylesheet_tag }}
 {% render 'newsletter-modal-dynamic-styles' %}
 
-<section class="newsletter-modal__wrap {% unless request.design_mode and section.settings.newsletter_modal_design_mode %}hidden{% endunless %}">
+<section class="newsletter-modal__wrap {% unless request.design_mode and section.settings.newsletter_modal_design_mode %}newsletter-modal__hidden{% endunless %}">
   <div
     class="newsletter-modal"
     data-delay-seconds="{{ section.settings.newsletter_modal_delay }}"
     data-visible="{{ section.settings.newsletter_modal }}">
     <span class="newsletter-modal__close">{{ 'icon-close-modal.svg' | inline_asset_content }}</span>
-    <div class="newsletter-modal__img">&nbsp;</div>
-    <div class="newsletter-modal__content">
-      <div id="content">
+    <div class="newsletter-modal__img-section">&nbsp;</div>
+    <div class="newsletter-modal__content-section">
+      <div class="newsletter-modal__content 
+      {% if request.design_mode and section.settings.newsletter_modal_type_view == "success" %}newsletter-modal__hidden{% endif %}
+      {% if request.design_mode and section.settings.newsletter_modal_type_view == "subscribed" %}newsletter-modal__hidden{% endif %}"
+      >
         <div class="newsletter-modal__headline">
           <div class="newsletter-modal__titles">
-            <p class="newsletter-modal__title newsletter-modal__title-1">{{ section.settings.newsletter_modal_title1 }}</p>
-            <p class="newsletter-modal__title newsletter-modal__title-2">{{ section.settings.newsletter_modal_title2 }}</p>
+            <p class="newsletter-modal__title">{{ section.settings.newsletter_modal_title1 }}</p>
+            <p class="newsletter-modal__title">{{ section.settings.newsletter_modal_title2 }}</p>
           </div>
           <p class="newsletter-modal__subtitle">{{ section.settings.newsletter_modal_text }}</p>
         </div>
@@ -28,10 +31,10 @@
             <input
               type="text"
               id="newsletter-modal__name-input"
-              class="{% if request.design_mode %}error-input{% endif %}"
+              class="{% if request.design_mode %}newsletter-modal__error-input{% endif %}"
               value="{% if customer.first_name != blank and customer.last_name != blank %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}"
               placeholder="MENO">
-                <span id="name-error" class="error-message {% unless request.design_mode %}hidden{% endunless %}">Zadajte platné meno</span>
+                <span class=" newsletter-modal__error-name newsletter-modal__error-message {% unless request.design_mode %}newsletter-modal__hidden{% endunless %}">Zadajte platné meno</span>
           </label>
           <input
             type="hidden"
@@ -46,25 +49,41 @@
               type="email"
               name="contact[email]"
               id="newsletter-modal__email-input"
-              class="{% if request.design_mode %}error-input{% endif %}"
+              class="{% if request.design_mode %}newsletter-modal__error-input{% endif %}"
               value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
               placeholder="EMAILOVA ADRESA"
               autocorrect="off"
               autocapitalize="off"
               autocomplete="email">
-                <span id="email-error" class="error-message {% unless request.design_mode %}hidden{% endunless %}">Zadajte platnýe-mail</span>
+                <span class="newsletter-modal__error-email newsletter-modal__error-message {% unless request.design_mode %}newsletter-modal__hidden{% endunless %}">Zadajte platnýe-mail</span>
           </label>
           <label class="newsletter-modal__form-consent">
             <input type="checkbox" id="newsletter-modal__consent-input">
-            <span class="newsletter-modal__form-consent-text {% if request.design_mode %}consent-error{% endif %}">I agree to the User Agreement and
+            <span class="newsletter-modal__form-consent-text {% if request.design_mode %}newsletter-modal__error-consent{% endif %}">I agree to the User Agreement and
               <a href="#" target="_blank">Privacy Policy.</a>
             </span>
           </label>
           <input
             type="button"
             id="newsletter-modal__submit-input"
-            value="{{ section.settings.newsletter_modal_button_text | default: "prihlás ma" }}">
+            value="{{ section.settings.newsletter_modal_button_text }}">
         {% endform %}
+      </div>
+      <div class="newsletter-modal__content-success {% unless request.design_mode and section.settings.newsletter_modal_type_view == "success" %}newsletter-modal__hidden{% endunless %}">
+        <div class="newsletter-modal__headline">
+          <div class="newsletter-modal__titles">
+            <p class="newsletter-modal__title">{{ section.settings.newsletter_modal_title_success }}</p>
+          </div>
+          <p class="newsletter-modal__subtitle">{{ section.settings.newsletter_modal_text_success }}</p>
+        </div>
+      </div>
+      <div class="newsletter-modal__content-subscribed {% unless request.design_mode and section.settings.newsletter_modal_type_view == "subscribed" %}newsletter-modal__hidden{% endunless %}">
+        <div class="newsletter-modal__headline">
+          <div class="newsletter-modal__titles">
+            <p class="newsletter-modal__title">{{ section.settings.newsletter_modal_title_subscribed }}</p>
+          </div>
+          <p class="newsletter-modal__subtitle">{{ section.settings.newsletter_modal_text_subscribed }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -80,6 +99,26 @@
         "id": "newsletter_modal_design_mode",
         "label": "Show in design mode?",
         "info": "It does not affect the frontend page."
+      },
+      {
+        "type": "select",
+        "id": "newsletter_modal_type_view",
+        "label": "Type view in editor",
+        "options": [
+          {
+            "value": "form",
+            "label": "Form"
+          },
+          {
+            "value": "success",
+            "label": "Success"
+          },
+          {
+            "value": "subscribed",
+            "label": "Subscribed"
+          }
+        ],
+        "default": "form"
       },
       {
         "type": "checkbox",
@@ -112,7 +151,7 @@
         "label": "Title #2"
       },
       {
-        "type": "text",
+        "type": "textarea",
         "id": "newsletter_modal_text",
         "label": "Text"
       },
@@ -120,6 +159,30 @@
         "type": "text",
         "id": "newsletter_modal_button_text",
         "label": "Button Text"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_title_success",
+        "label": "Title - success",
+        "info": "Show after successful subscribed"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_modal_text_success",
+        "label": "Text - success",
+        "info": "Show after successful subscribed"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_modal_title_subscribed",
+        "label": "Title - already subscribed",
+        "info": "Show when is already subscribed"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_modal_text_subscribed",
+        "label": "Text - already subscribed",
+        "info": "Show when is already subscribed"
       },
       {
         "type": "color",
