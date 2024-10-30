@@ -5,7 +5,7 @@
 const visualViewport = window.visualViewport;
 
 // =========================
-// 2. Set global CSS for adjusting modal
+// 2. Function to set global CSS for adjusting modal
 // =========================
 
 const setGlobalCSS = () => {
@@ -21,7 +21,7 @@ const setGlobalCSS = () => {
 };
 
 // =========================
-// 3. Toogle Dynamic Classes for adjusting modal
+// 3. Function to toogle Dynamic Classes for adjusting modal
 // =========================
 
 const toggleDynamicClasses = () => {
@@ -29,8 +29,8 @@ const toggleDynamicClasses = () => {
   const modal = document.querySelector('.newsletter-modal');
   const modalHeight = modal.offsetHeight;
 
-  modalWrap.classList.toggle('align-start', modalHeight > visualViewport.height);
-  modal.classList.toggle('dynamic-margin', modalHeight > visualViewport.height);
+  modalWrap.classList.toggle('newsletter-modal__align-start', modalHeight > visualViewport.height);
+  modal.classList.toggle('newsletter-modal__dynamic-margin', modalHeight > visualViewport.height);
 };
 
 // =========================
