@@ -1,72 +1,72 @@
 <style>
-  .newsletter-modal {
-    background-color: {{section.settings.newsletter_modal_bg_color}};
+.newsletter-modal {
+  background-color: {{section.settings.newsletter_modal_bg_color}};
 
 
-    @media only screen and (min-width: 992px) {
+  @media only screen and (min-width: 992px) {
     {% if section.settings.newsletter_modal_image %}
-        grid-template-columns: 45% 55%;
-        border-radius: 0 15px 15px 0;
+      grid-template-columns: 45% 55%;
+      border-radius: 0 15px 15px 0;
     {% else %}
-        grid-template-columns: 1fr;
-        border-radius: 15px;
-    {% endif %}
-    }
-  }
-
-  .newsletter-modal__img {
-    @media only screen and (min-width: 992px) {
-    {% if section.settings.newsletter_modal_image %}
-        background-image: url({{ section.settings.newsletter_modal_image | image_url: width: 650 }});
-        display: initial;
-    {% else %}
-        background-image: none;
-        display: none;
+      grid-template-columns: 1fr;
+      border-radius: 15px;
     {% endif %}
   }
+}
+
+.newsletter-modal__img-section {
+  @media only screen and (min-width: 992px) {
+    {% if section.settings.newsletter_modal_image %}
+      background-image: url({{ section.settings.newsletter_modal_image | image_url: width: 650 }});
+      display: initial;
+    {% else %}
+      background-image: none;
+      display: none;
+    {% endif %}
   }
+}
 
   
 .newsletter-modal__close svg {
   stroke: {{ section.settings.newsletter_modal_close_icon_color }};
 }
 
-.newsletter-modal__headline .newsletter-modal__title {
-    color: {{ section.settings.newsletter_modal_main_color }};
-  }
+.newsletter-modal__title {
+  color: {{ section.settings.newsletter_modal_main_color }};
+}
 
-.newsletter-modal__title-1 {
+.newsletter-modal__title:nth-of-type(1) {
   {% unless section.settings.newsletter_modal_title1 %}display: none;{% endunless %}
 }
 
-.newsletter-modal__title-2 {
+.newsletter-modal__title:nth-of-type(2) {
   {% unless section.settings.newsletter_modal_title2 %}display: none;{% endunless %}
 }
 
-.newsletter-modal__headline .newsletter-modal__subtitle {
+.newsletter-modal__subtitle {
   {% unless section.settings.newsletter_modal_text %}display: none;{% endunless %}
-    color: {{ section.settings.newsletter_modal_secondary_color }};
+  color: {{ section.settings.newsletter_modal_secondary_color }};
 }
 
-.newsletter-modal__content form input {
-      background-color: {{ section.settings.newsletter_modal_bg_input_color }};
-}
-
-.newsletter-modal__content form input[type='text'],
-.newsletter-modal__content form input[type='email'] {
-    color: {{ section.settings.newsletter_modal_input_color }}
-}
-
-.newsletter-modal__content form input[type='text']:focus,
-.newsletter-modal__content form input[type='email']:focus {
-  border-color: {{ section.settings.newsletter_modal_main_color }};
-}
-
-.newsletter-modal__form-consent input {
+#newsletter-modal__form input {
   background-color: {{ section.settings.newsletter_modal_bg_input_color }};
 }
 
-.newsletter-modal__form-consent input:checked::after {
+#newsletter-modal__name-input,
+#newsletter-modal__email-input {
+  color: {{ section.settings.newsletter_modal_input_color }}
+}
+
+#newsletter-modal__name-input:focus,
+#newsletter-modal__email-input:focus {
+  border-color: {{ section.settings.newsletter_modal_main_color }};
+}
+
+#newsletter-modal__consent-input {
+  background-color: {{ section.settings.newsletter_modal_bg_input_color }};
+}
+
+#newsletter-modal__consent-input:checked::after {
   background-color: {{ section.settings.newsletter_modal_main_color }};
 }
 
@@ -74,25 +74,25 @@
   color: {{ section.settings.newsletter_modal_input_color }};
 }
 
-.newsletter-modal__form-consent a {
+.newsletter-modal__form-consent-text a {
   color: {{ section.settings.newsletter_modal_main_color }};
 }
 
-.newsletter-modal__content #newsletter-modal__submit-input {
+#newsletter-modal__submit-input {
   color: {{ section.settings.newsletter_modal_button_text_color }};
-  background-color: {{ section.settings.newsletter_modal_main_color }};
+  background-color: {{ section.settings.newsletter_modal_main_color }} !important;
 }
 
-.newsletter-modal__content .error-message {
+.newsletter-modal__error-message {
   background-color: {{ section.settings.newsletter_modal_error_color }};
   color: {{ section.settings.newsletter_modal_text_error_color }};
 }
 
-.newsletter-modal__content .consent-error {
+.newsletter-modal__error-consent {
   text-decoration-color: {{ section.settings.newsletter_modal_error_color }};
 }
 
-.newsletter-modal__content .error-input {
+.newsletter-modal__error-input {
   border-color: {{ section.settings.newsletter_modal_error_color }} !important;
 }
 
