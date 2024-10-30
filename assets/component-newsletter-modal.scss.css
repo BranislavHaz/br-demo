@@ -4,21 +4,21 @@
   --modal-scale: 1;
 }
 
-.align-start {
+.newsletter-modal__align-start {
   align-items: start !important;
 }
 
-.newsletter-modal__wrap input {
-  all: unset;
-}
-
-.dynamic-margin {
+.newsletter-modal__dynamic-margin {
   margin-top: calc(100vh - var(--doc-height) + 20px) !important;
   margin-bottom: 20px;
 }
 
-.hidden {
+.newsletter-modal__hidden {
   display: none !important;
+}
+
+.newsletter-modal__wrap input {
+  all: unset;
 }
 /* End global classes and vars */
 
@@ -50,6 +50,7 @@
   max-width: 390px;
   height: auto;
   overflow: auto;
+  /* Dynamic styles: grid-template-columns, border-radius */
 
   @media only screen and (min-width: 350px) {
     padding: 50px 40px;
@@ -61,7 +62,6 @@
     max-width: 820px;
     height: 590px;
   }
-  /* Dynamic styles: grid-template-columns, border-radius */
 
   .newsletter-modal__close {
     display: flex;
@@ -75,6 +75,7 @@
     background-color: transparent;
     width: 33px;
     height: 33px;
+    /* Dynamic styles: stroke */
 
     @media only screen and (min-width: 350px) {
       top: 8px;
@@ -85,16 +86,16 @@
       top: 10px;
       right: 10px;
     }
-    /* Dynamic styles: stroke */
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
-  .newsletter-modal__close:hover {
-    transform: scale(1.2);
-  }
   /* End modal content wrap */
 
   /* Start image */
-  .newsletter-modal__img {
+  .newsletter-modal__img-section {
     display: none;
     background-position: center;
     background-size: cover;
@@ -102,16 +103,16 @@
     background-attachment: fixed;
     width: 100%;
     height: 100%;
+    /* Dynamic styles: background-image, display */
 
     @media only screen and (min-width: 992px) {
       display: block;
     }
-    /* Dynamic styles: background-image, display */
   }
   /* End image */
 
   /* Start image section */
-  .newsletter-modal__content {
+  .newsletter-modal__content-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,7 +122,9 @@
   /* End image section */
 
   /* Start content section */
-  .newsletter-modal__content #content {
+  .newsletter-modal__content,
+  .newsletter-modal__content-success,
+  .newsletter-modal__content-subscribed {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -145,12 +148,13 @@
     gap: 20px;
   }
 
-  .newsletter-modal__headline .newsletter-modal__subtitle {
+  .newsletter-modal__subtitle {
     margin: 0;
     font-size: 12px;
     line-height: 16px;
     font-family: 'Monument_400';
     text-align: center;
+    /* Dynamic styles: color, display */
 
     @media only screen and (min-width: 350px) {
       font-size: 16px;
@@ -166,15 +170,15 @@
       font-size: 18px;
       line-height: 25px;
     }
-    /* Dynamic styles: color, display */
   }
 
-  .newsletter-modal__headline .newsletter-modal__title {
+  .newsletter-modal__title {
     margin: 0;
     font-size: 20px;
     line-height: 25px;
     font-family: 'Monument_900';
     text-align: center;
+    /* Dynamic styles: display */
 
     @media only screen and (min-width: 350px) {
       font-size: 25px;
@@ -190,30 +194,29 @@
       font-size: 30px;
       line-height: 40px;
     }
-    /* Dynamic styles: display */
   }
   /* End content section */
 
   /* Start form */
-  .newsletter-modal__content form {
+  #newsletter-modal__form {
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 20px;
     width: 100%;
+
+    label {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      /* Dynamic styles: background-color */
+    }
   }
 
-  .newsletter-modal__content form label {
-    position: relative;
-    width: 100%;
-  }
-
-  .newsletter-modal__content form input {
-    /* Dynamic styles: background-color */
-  }
-
-  .newsletter-modal__content form input[type='text'],
-  .newsletter-modal__content form input[type='email'] {
+  #newsletter-modal__name-input,
+  #newsletter-modal__email-input {
     transition: border 0.15s ease-in-out;
     cursor: text;
     box-sizing: border-box;
@@ -227,6 +230,8 @@
     font-family: 'Monument_700';
     letter-spacing: 0.800000011920929px;
     text-align: left;
+    /* Dynamic styles: color */
+    /* Dynamic styles for focus: border-color */
 
     @media only screen and (min-width: 600px) {
       height: 45px;
@@ -239,9 +244,6 @@
       font-size: 12px;
       line-height: 14.06px;
     }
-
-    /* Dynamic styles: color */
-    /* Dynamic styles for focus: border-color */
   }
 
   .newsletter-modal__form-consent {
@@ -253,6 +255,7 @@
     cursor: pointer;
     font-family: 'Monument_400';
     text-align: left;
+    /* Dynamic styles: color */
 
     @media only screen and (min-width: 350px) {
       gap: 10px;
@@ -261,11 +264,9 @@
     @media only screen and (min-width: 600px) {
       gap: 11px;
     }
-
-    /* Dynamic styles: color */
   }
 
-  .newsletter-modal__form-consent span {
+  .newsletter-modal__form-consent-text {
     display: inline-block;
     font-size: 10px;
     line-height: 11px;
@@ -281,13 +282,13 @@
       font-size: 13px;
       line-height: 14px;
     }
+
+    a {
+      /* Dynamic styles: color */
+    }
   }
 
-  .newsletter-modal__form-consent a {
-    /* Dynamic styles: color */
-  }
-
-  .newsletter-modal__form-consent input {
+  #newsletter-modal__consent-input {
     position: relative;
     appearance: none;
     -webkit-appearance: none;
@@ -297,18 +298,18 @@
     width: 19px;
     height: 19px;
     /* Dynamic styles: background-color */
-  }
 
-  .newsletter-modal__form-consent input:checked::after {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    width: 5px;
-    height: 5px;
-    content: '';
-    /* Dynamic styles: background-color */
+    &:checked::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      width: 5px;
+      height: 5px;
+      content: '';
+      /* Dynamic styles: background-color */
+    }
   }
 
   #newsletter-modal__submit-input {
@@ -328,6 +329,7 @@
     letter-spacing: 1.5px;
     text-align: center;
     text-transform: uppercase;
+    /* Dynamic styles: background-color, color */
 
     @media only screen and (min-width: 350px) {
       height: 45px;
@@ -341,20 +343,14 @@
       line-height: 14.06px;
     }
 
-    /* Dynamic styles: background-color, color */
-  }
-
-  #newsletter-modal__submit-input:hover {
-    filter: grayscale(6%);
-  }
-
-  .newsletter-modal__content form button {
-    display: none;
+    &:hover {
+      filter: grayscale(6%);
+    }
   }
   /* End form */
 
   /* Start form errors */
-  .newsletter-modal__content .error-message {
+  .newsletter-modal__error-message {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -365,14 +361,14 @@
     /* Dynamic styles: background-color, color */
   }
 
-  .newsletter-modal__content .consent-error {
+  .newsletter-modal__error-consent {
     text-decoration-line: underline;
     text-decoration-style: wavy;
     text-decoration-thickness: 1px;
     /* Dynamic styles: text-decoration-color */
   }
 
-  .newsletter-modal__content .error-input {
+  .newsletter-modal__error-input {
     /* Dynamic styles: border-color */
   }
   /* End form errors */
